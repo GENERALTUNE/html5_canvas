@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Rubber bands with layered elements</title>
+	<style type="text/css">
+		body {
+			background: #dddddd;
+			text-align: center;
+		}
+
+		#canvas {
+			margin-left: 20px;
+			margin-right: 0;
+			background: #ffffff;
+			margin-bottom: 20px;
+			border: thin solid #aaaaaa;
+			/*cursor: crosshair;*/
+			padding: 0;
+		}
+
+	</style>
+</head>
+<body>
+	<canvas id="canvas"  width="750"  height="500">
+		Canvas not supported
+	</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		var endPoints = [{x: 130, y: 70}, {x: 430, y: 270}]
+		var controlPoints = [{x: 130, y: 250}, {x: 450, y: 70}]
+
+		//Functions ..........................................
+		function drawGrid(color, stepx, stepy) {
+			//List omitted for brevity, See Example 2.13
+			//for a complete listing.
+		}
+
+		function drawBezierCurve() {
+			context.strokeStyle = 'blue';
+			context.beginPath();
+			context.moveTo(endPoints[0].x, endPoints[0].y);
+			context.bezierCurveTo(controlPoints[0].x, controlPoints[0].y,
+				controlPoints[1].x, controlPoints[1].y,
+				endPoints[1].x, endPoints[1].y);
+			context.stroke();
+		}
+
+		function drawEndPoints() {
+			context.strokeStyle = 'blue';
+			context.fillStyle = 'red';
+			endPoints.forEach(function(point) {
+				context.beginPath();
+				context.arc(point.x, point.y, 5, 0, Math.PI * 2 , false);
+				context.stroke();
+				context.fill();
+			})
+		}
+
+		function drawControlPoints() {
+			context.strokeStyle = 'yellow';
+			context.fillStyle = 'blue';
+			controlPoints.forEach(function(point) {
+				context.beginPath();
+				context.arc(point.x, point.y, 5, 0, Math.PI*2, false);
+				context.stroke();
+				context.fill();
+			})
+		}
+
+		//Initialization ..........................
+		drawGrid('lightgray', 10, 10);
+		drawControlPoints();
+		drawEndPoints();
+		drawBezierCurve();
+		
+		
+	</script>
+	
+</body>
+</html>

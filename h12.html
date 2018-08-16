@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas Composite Operations</title>
+	<style type="text/css">
+		body {
+			background: #dddddd;
+			text-align: center;
+		}
+
+		#canvas {
+			border: 1px solid cornflowerblue;
+			/*position:  absolute;*/
+/*			left: 150px
+			top: 50px;*/
+			background: #eeeeee;
+			border: thin solid #aaaaaa;
+			cursor: pointer;
+			-webkit-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+			-moz-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+		}
+
+	</style>
+</head>
+<body>
+
+	<canvas id="canvas"  width="750"  height="500">
+		Canvas not supported
+	</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+
+
+		//Function ................................
+		function drawGrid(context, color, stepx, stepy) {
+			// body...
+			context.strokeStyle = color;
+			context.lineWidth = 0.5;
+
+			for(var i = stepx + 0.5; i < context.canvas.width; i += stepx) {
+				context.beginPath();
+				context.moveTo(i, 0);
+				context.lineTo(i, context.canvas.height);
+				context.stroke();
+			}
+
+			for(var i =  stepy + 0.5; i < context.canvas.height; i += stepy) {
+				context.beginPath();
+				context.moveTo(0, i);
+				context.lineTo(context.canvas.width, i);
+				context.stroke();
+			}
+		}
+
+		//Initialization ..........................
+		drawGrid(context, 'lightgray', 10, 10);
+		
+	</script>
+	
+</body>
+</html>

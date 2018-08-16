@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>canvas示例页面</title>
+	<style type="text/css">
+		body {
+			background: #dddddd;
+			text-align: center;
+		}
+
+		#canvas {
+			margin-top: 50px;
+			margin-left: 20px;
+			margin-right: 0;
+			background: #ffffff;
+			margin-bottom: 20px;
+			border: thin solid #aaaaaa;
+			/*cursor: crosshair;*/
+			padding: 0;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div><button  id="rotateId">旋转</button></div>
+	<canvas id="canvas"  width="750"  height="500">
+		Canvas not supported
+	</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var rotateId = document.getElementById('rotateId');
+		var context = canvas.getContext('2d');
+
+
+
+
+		context.strokeStyle = 'rgba(100, 150, 2, 10)';
+		context.arc(100, 100, 50, 0, Math.PI * 0.5, true);
+		context.stroke();
+
+		console.log('context:', context, context.scrollPathIntoView);
+
+		//Function ................................
+
+
+		//Initialization ..........................
+
+		rotateId.addEventListener('click', function() {
+
+			context.rotate(Math.PI * 0.5);
+			context.translate(150, 150);
+		});
+		
+	</script>
+	
+</body>
+</html>

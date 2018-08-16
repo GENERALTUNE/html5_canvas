@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Canvas Composite Operations</title>
+	<style type="text/css">
+		body {
+			background: #dddddd;
+			text-align: center;
+		}
+
+		#canvas {
+			border: 1px solid cornflowerblue;
+			position:  absolute;
+/*			left: 150px;
+			top: 50px;*/
+			background: #eeeeee;
+			border: thin solid #aaaaaa;
+			cursor: pointer;
+			-webkit-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+			-moz-box-shadow: rgba(200, 200, 255, 0.9) 5px 5px 10px;
+		}
+
+	</style>
+</head>
+<body>
+	<div><button id="fullsen">全屏</button>
+	<!-- <select id="compositingSelect"  size="11"> -->
+	<select id="compositingSelect" >
+		<option value="source-atop">source-atop</option>
+		<option value="source-in">source-in</option>
+		<option value="source-out">source-out</option>
+		<option value="source-over">source-over</option>
+		<option value="destination-atop">destination-atop</option>
+		<option value="destination-in">destination-in</option>
+		<option value="destination-out">destination-out</option>
+		<option value="destination-over">destination-over</option>
+		<option value="lighter">lighter</option>
+		<option value="copy">copy</option>
+		<option value="xor">xor</option>
+	</select>	
+	<canvas id="canvas"  width="750"  height="500">
+		Canvas not supported
+	</canvas>
+
+	<script type="text/javascript">
+		var canvas = document.getElementById('canvas');
+		var context = canvas.getContext('2d');
+		var fullsen = document.getElementById('fullsen');
+		var selectElement = document.getElementById('compositingSelect');
+
+
+
+		//Function ................................
+		function drawText() {
+			context.save();
+
+			context.shadowColor = 'rgba(100, 100, 150, 0.8)';
+			context.shadowOffsetX = 5;
+			context.shadowOffsetY = 5;
+			context.shadowBlur = 10;
+			context.fillStyle = 'cornflowerblue';
+			context.fillText('HTML5', 20, 250);
+
+			context.strokeStyle = 'yellow';
+			context.strokeText('HTML5', 20, 250);
+			context.restore();
+		}
+
+		function fullScreen() {
+			var element  = canvas;
+			var	method = "RequestFullScreen";
+			console.log('RequestFullScreen', context, context.RequestFullScreen)
+			var prefixMethod;
+			["webkit", "moz", "ms", "o", ""].forEach(function(prefix) {
+				if (prefixMethod)
+					return;
+				if (prefix === "") {
+					// 无前缀，方法首字母小写
+					method = method.slice(0, 1).toLowerCase() + method.slice(1);
+				}
+				var fsMethod = typeof element[prefix + method];
+				if (fsMethod + "" !== "undefined") {
+					// 如果是函数,则执行该函数
+					if (fsMethod === "function") {
+						prefixMethod = element[prefix + method]();
+					} else {
+						prefixMethod = element[prefix + method];
+					}
+				}
+			});
+
+			// canvas.style.width = window.innerWidth + "px";
+			// canvas.style.height = window.innerHeight + "px";
+			canvas.width = window.innerWidth;
+			canvas.height = window.innerHeight;
+			console.log('prefixMethod', prefixMethod);
+			return prefixMethod;
+		}
+
+
+		function exitFullScreen() {
+			try {
+
+				de = document;
+
+				// exit full-screen
+				if (de.exitFullscreen) {
+					de.exitFullscreen();
+				} else if (de.webkitExitFullScreen) {
+					de.webkitExitFullScreen();
+				} else if (de.webkitCancelFullScreen) {
+					de.webkitCancelFullScreen();
+				} else if (de.mozCancelFullScreen) {
+					de.mozCancelFullScreen();
+				} else if (de.msExitFullScreen) {
+					de.msExitFullScreen();
+				}
+			} catch (err) {
+				alert(err.description);
+			}
+		};
+
+		//Event handlers ................................
+		function windowToCanvas(canvas, x, y) {
+			var bbox =  canvas.getBoundingClientRect();
+			return { x: x - bbox.left * (canvas.width / bbox.width), 
+					 y: y - bbox.top * (canvas.height / bbox.height)}
+		}
+
+		fullsen.addEventListener('click', function() {
+			fullScreen();
+		});
+
+
+		context.canvas.onmousemove = function(e) {
+			var loc = windowToCanvas(context.canvas, e.clientX, e.clientY);
+			context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+			drawText();
+			context.save();
+			context.globalCompositeOperation = selectElement.value;
+			context.beginPath();
+			context.arc(loc.x, loc.y, 100, 0, Math.PI * 2, false);
+			context.fillStyle = 'orange';
+			context.stroke();
+			context.fill();
+			context.restore();
+		}
+
+
+
+
+
+		//Initialization ..........................
+		selectElement.selectedIndex = 3;
+		context.lineWidth = 0.5;
+		context.font = '128pt Comic-sans';
+		drawText();
+		
+	</script>
+	
+</body>
+</html>
