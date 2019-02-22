@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>网页postman  小工具 </title>
+	<style type="text/css">
+
+ /*--disable-web-security*/
+		body {
+			/*background: #ffffff;*/
+			/*text-align: center;*/
+		}
+		textarea {
+			width: 600px;
+			height: 200px;
+		}
+		div {
+			margin: 10px 0 ;
+		}
+
+		input[type=text] {
+			width: 600px;
+			padding: 5px ;
+		}
+
+	</style>
+</head>
+<body>
+
+	<div>
+		请求地址：<input type="text" name=""  id="urlele"  />
+	</div>
+	
+	<div>
+		<textarea name="" id="sendarea" cols="30" rows="10" >{}</textarea>
+		请求方式:   <select id="method"  >
+						<option  value="GET">GET</option>
+						<option  value="POST">POST</option>
+					</select>
+		<input type="button"  id="ajaxbtn" name=""  value="请求">
+	</div>
+	<div >
+		<textarea name="" id="receivearea" cols="30" rows="10" ></textarea>
+	</div>
+
+	<script type="text/javascript">
+		// {
+		//     "username": "zhangsan"
+		// }
+		var urlDoc = document.getElementById('urlele');
+		var sendareaDoc = document.getElementById('sendarea');
+		var ajaxbtnDoc = document.getElementById('ajaxbtn');
+		var methodDoc = document.getElementById('method');
+		var receiveareaDoc = document.getElementById('receivearea');
+
+		ajaxbtnDoc.addEventListener('click', function() {
+			var reqMethod = methodDoc.value;
+			var sendData = sendareaDoc.value;
+			var url = urlDoc.value;
+			console.log('sendarea', reqMethod, url, sendData, JSON.parse(sendData));
+			ajaxSend({
+				method: reqMethod,
+				data: sendData,
+				url: url
+			}, function(data) {
+				console.log('data:', data);
+			}, function(data) {
+				console.log('data:', data);
+			});
+			
+		});
+
+		// function ajaxSend (option, success, error) {
+		// 	var xmlhttp = new XMLHttpRequest();
+
+		// 	  xmlhttp.onreadystatechange = state_Change;
+		// 	  xmlhttp.open("GET",url,true);
+		// 	  xmlhttp.send(null);
+		// }
+		function ajaxSend(option, success, error) {
+			var xmlhttp = new XMLHttpRequest();
+			var method = option.method || 'GET';
+			var headers =  {
+
+			};
+			xmlhttp.timeout = option.timeout || 3000;
+			xmlhttp.ontimeout = function(event) {
+				alert("请求超时！");
+			}
+
+			xmlhttp.onreadystatechange = function() {
+				if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+					success.call(xmlhttp.responseText);
+					// alert(xmlhttp.responseText);
+				} else {
+					error.call(xmlhttp.statusText);
+					// alert(xhr.statusText);
+				}
+			}
+			// Access-Control-Allow-Origin: *
+
+			// xmlhttp.setResponseHeader("Access-Control-Allow-Origin", "*");
+
+			if (option.method == 'GET') {
+				xmlhttp.open(option.method, option.url, true);
+				xmlhttp.withCredentials = true;
+				xmlhttp.send(null);
+			} 
+
+			if (option.method == 'POST') {
+				var formData = new FormData();
+				if (option.data) {
+					for (p in option.data) {
+						formData.append(p, option.data[p]);
+					}
+				}
+				xmlhttp.open('POST', option.url);
+				xmlhttp.withCredentials = true;
+				console.log('formData', formData);
+				xmlhttp.send(formData);
+			}
+
+			// xmlhttp.setRequestHeader('origin', '127.0.0.1');
+			// xmlhttp.withCredentials = true;
+			for (var i in headers) {
+				xmlhttp.setRequestHeader(i, headers[i]);
+			}
+		}
+
+	</script>
+	
+</body>
+</html>

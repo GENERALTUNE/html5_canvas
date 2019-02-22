@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>css content counter</title>
+	<style type="text/css">
+
+ /*--disable-web-security*/
+		body {
+			background: #ffffff;
+			text-align: center;
+		}
+
+		.box {
+			border: 2px dashed #cd0000;
+		}
+		span {
+			padding: 50%;
+			background-color: gray;
+		}
+
+		button {
+			position: absolute;
+			clip: rect(0 0 0 0);
+		}
+		label {
+			display: inline-block;
+			line-height: 20px;
+			padding: 10px;
+		}
+
+		.icon-menu {
+		    display: inline-block;
+		    width: 140px; height: 10px;
+		    padding: 35px 0;
+		    border-top: 10px solid;
+		    border-bottom: 10px solid;
+		    background-color: currentColor;
+		    background-clip: content-box;
+		}
+
+		
+		.icon-dot {
+		    display: inline-block;
+		    width: 100px; height: 100px;
+		    padding: 10px;
+		    border: 10px solid;    
+		    border-radius: 50%;
+		    background-color: currentColor;
+		    background-clip: content-box;
+		}
+
+	</style>
+</head>
+<body>
+
+	<!-- <span>内有文字若干</span> -->
+	<button>中国人民解放军</button>
+	<button id="btn" onclick="hello()"></button>
+	<label for="btn">按钮</label>
+
+	<div>
+		<i class="icon-menu"></i>
+		<i class="icon-dot"></i>
+	</div>
+
+
+
+	<script type="text/javascript">
+		function hello(argument) {
+			// body...
+			console.log('按钮！');
+			alert('hello');
+		}
+	</script>
+	
+</body>
+</html>

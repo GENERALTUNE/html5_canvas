@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>锚点</title>
+	<style type="text/css">
+		.box {
+			height: 120px;
+			border: 1px solid #bbb;
+			overflow: auto;
+		}
+		.content {
+			height: 200px;
+			background-color: #eee;
+		}
+
+		.mybox {
+		    width: 20em;
+		    height: 10em;
+		    border: 1px solid #ddd;
+		    overflow: hidden;
+		}
+		.list {
+		    line-height: 10em;
+		    background: #ddd;
+		    text-align: center;
+		}
+	</style>
+</head>
+<body>
+	<div class="box">
+		<div class="content"></div>
+		<h4 id="title">底部标题</h4>
+	</div>
+	<p><a href="#title">点击测试</a></p>
+
+	<div class="mybox">
+	    <div class="list" id="one">1</div>
+	    <div class="list" id="two">2</div>
+	    <div class="list" id="three">3</div>
+	    <div class="list" id="four">4</div>
+	</div>
+	<div class="link">
+	    <a class="click" href="#one">1</a>
+	    <a class="click" href="#two">2</a>
+	    <a class="click" href="#three">3</a>
+	    <a class="click" href="#four">4</a>
+	</div>
+</body>
+</html>
